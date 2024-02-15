@@ -19,6 +19,7 @@ namespace PartnerWeb.Models
         [Required(ErrorMessage = "PolicyPrice is required.")]
         [Range(0.01, double.MaxValue, ErrorMessage = "PolicyPrice must be greater than 0.")]
         public decimal PolicyPrice { get; set; }
+        [Required(ErrorMessage ="You must choose partner.")]
         public int PartnerId { get; set; }
         public Partner Partner { get; set; }
 

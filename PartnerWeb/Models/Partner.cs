@@ -37,5 +37,7 @@ namespace PartnerWeb.Models
         public string ExternalCode { get; set; }
         [Required(ErrorMessage = "* required")]
         public char Gender { get; set; }
+        public int PolicyCount { get; set; }
+        public decimal TotalPolicyAmount { get; set; }
     }
 }
