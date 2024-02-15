@@ -24,7 +24,7 @@ namespace PartnerWeb.Controllers
         }
 
         [HttpPost]
-        public ActionResult PartnerAdd(Partner partner)
+        public ActionResult Create(Partner partner)
         {
             DynamicParameters param = new DynamicParameters();
             param.Add("@FirstName", partner.FirstName);
