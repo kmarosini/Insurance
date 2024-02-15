@@ -23,7 +23,7 @@ namespace PartnerWeb.Models
         public string LastName { get; set; }
         public string Address { get; set; }
         [Required]
-        public decimal PartnerNumber { get; set; }
+        public int PartnerNumber { get; set; }
         public string CroatianPIN { get; set; }
         [Required]
         public PartnerType PartnerTypeId { get; set; }
@@ -31,7 +31,7 @@ namespace PartnerWeb.Models
         [Required]
         public string CreateByUser { get; set; }
         [Required]
-        public bool IsForeign { get; set; }
+        public bool? IsForeign { get; set; }
         [StringLength(20, MinimumLength = 10)]
         public string ExternalCode { get; set; }
         [Required]
