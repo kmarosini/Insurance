@@ -18,7 +18,7 @@ namespace PartnerWeb.Controllers
         }
 
         [HttpGet]
-        public ActionResult PartnerAdd()
+        public ActionResult Create()
         {
             return View();
         }
