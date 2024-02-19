@@ -257,10 +257,10 @@
     <Compile Include="Models\InsurancePolicy.cs" />
     <Compile Include="Models\Partner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\IInsurancePolicyService.cs" />
-    <Compile Include="Services\InsurancePolicyService.cs" />
-    <Compile Include="Services\IPartnerService.cs" />
-    <Compile Include="Services\PartnerService.cs" />
+    <Compile Include="Services\Contracts\IInsurancePolicyService.cs" />
+    <Compile Include="Services\Implementation\InsurancePolicyService.cs" />
+    <Compile Include="Services\Contracts\IPartnerService.cs" />
+    <Compile Include="Services\Implementation\PartnerService.cs" />
     <Compile Include="Utils\ValidatorUtil.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -300,6 +300,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="sql\insurance.sql" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
