@@ -4,6 +4,12 @@
     ViewBag.Title = "Index";
 }
 
+<style>
+    .new-record {
+        background-color: #D9FD9E;
+    }
+</style>
+
 <h2>Welcome to Partner Web App</h2>
 <div class="d-flex justify-content-center">
     <button class="btn btn-primary">
@@ -44,45 +50,45 @@
 
     @foreach (var item in Model)
     {
-        <tr class="@((ViewBag.NewRecordId != null && ViewBag.NewRecordId == item.Id) ? "new-record" : "")">
-            <td>
-                @if (item.PolicyCount > 5 || item.TotalPolicyAmount > 5000)
-                {
+           <tr class="@((ViewBag.NewRecordId != null && ViewBag.NewRecordId == item.ExternalCode) ? "new-record" : "")">
+               <td>
+                   @if (item.PolicyCount > 5 || item.TotalPolicyAmount > 5000)
+                   {
 
-                    @Html.DisplayFor(modelItem => item.FirstName)  @Html.DisplayFor(modelItem => item.LastName)<span style="color:red">
-                        [*]
-                    </span>
-                }
-                else
-                {
-                    @Html.DisplayFor(modelItem => item.FirstName)  @Html.DisplayFor(modelItem => item.LastName)
-                }
-            </td>
+                       @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)<span style="color:red">
+                           [*]
+                       </span>
+                   }
+                   else
+                   {
+                       @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
+                   }
+               </td>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.PartnerNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CroatianPIN)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedAtUtc)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PartnerTypeId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsForeign)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Gender)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-info", style = "text-decoration:none; color:white;" }) |
-                <a href="#" class="details-link btn btn-primary" style="color:white" data-toggle="modal" data-target="#exampleModal" data-partner-firstname="@item.FirstName" data-partner-lastname="@item.LastName" data-partner-address="@item.Address" data-partner-number="@item.PartnerNumber" data-croatian-pin="@item.CroatianPIN" data-created-at-utc="@item.CreatedAtUtc" data-partner-type-id="@item.PartnerTypeId" data-is-foreign="@item.IsForeign" data-partner-create-by-user="@item.CreateByUser" data-partner-external-code="@item.ExternalCode" data-gender="@item.Gender">Details</a> |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger", style = "text-decoration:none; color:white;" })
-            </td>
-        </tr>
+               <td>
+                   @Html.DisplayFor(modelItem => item.PartnerNumber)
+               </td>
+               <td>
+                   @Html.DisplayFor(modelItem => item.CroatianPIN)
+               </td>
+               <td>
+                   @Html.DisplayFor(modelItem => item.CreatedAtUtc)
+               </td>
+               <td>
+                   @Html.DisplayFor(modelItem => item.PartnerTypeId)
+               </td>
+               <td>
+                   @Html.DisplayFor(modelItem => item.IsForeign)
+               </td>
+               <td>
+                   @Html.DisplayFor(modelItem => item.Gender)
+               </td>
+               <td>
+                   @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-info", style = "text-decoration:none; color:white;" }) |
+                   <a href="#" class="details-link btn btn-primary" style="color:white" data-toggle="modal" data-target="#exampleModal" data-partner-firstname="@item.FirstName" data-partner-lastname="@item.LastName" data-partner-address="@item.Address" data-partner-number="@item.PartnerNumber" data-croatian-pin="@item.CroatianPIN" data-created-at-utc="@item.CreatedAtUtc" data-partner-type-id="@item.PartnerTypeId" data-is-foreign="@item.IsForeign" data-partner-create-by-user="@item.CreateByUser" data-partner-external-code="@item.ExternalCode" data-gender="@item.Gender">Details</a> |
+                   @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger", style = "text-decoration:none; color:white;" })
+               </td>
+           </tr>
     }
 </table>
 
@@ -107,5 +113,50 @@
 </div>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
-    // ... your existing script
+    $(document).ready(function () {
+        $('.details-link').on('click', function () {
+            var address = $(this).data('partner-address');
+            var partnerNumber = $(this).data('partner-number');
+            var croatianPIN = $(this).data('croatian-pin');
+            var createdAtUtc = $(this).data('created-at-utc');
+            var partnerTypeId = $(this).data('partner-type-id');
+            var createByUser = $(this).data('partner-create-by-user');
+            var isForeign = $(this).data('is-foreign');
+            var gender = $(this).data('gender');
+            var externalCode = $(this).data('partner-external-code');
+            var firstName = $(this).data('partner-firstname');
+            var lastName = $(this).data('partner-lastname');
+            var fullName = firstName + ' ' + lastName;
+
+            $('#exampleModal .modal-title').text('Details for Partner ' + fullName);
+            $('.modal-body').html(`
+                <p><strong>Partner:</strong> ${fullName}</p>
+                <p><strong>Address:</strong> ${address}</p>
+                <p><strong>Number:</strong> ${partnerNumber}</p>
+                <p><strong>Croatian PIN:</strong> ${croatianPIN}</p>
+                <p><strong>Created At (UTC):</strong> ${createdAtUtc}</p>
+                <p><strong>Create by user:</strong> ${createByUser}</p>
+                <p><strong>Partner Type ID:</strong> ${partnerTypeId}</p>
+                <p><strong>Is Foreign:</strong> ${isForeign}</p>
+                <p><strong>External Code:</strong> ${externalCode}</p>
+                <p><strong>Gender:</strong> ${gender}</p>
+            `);
+
+            $('#exampleModal').modal('show');
+            $('#closemodal').click(function () {
+                $('#exampleModal').modal('hide');
+            });
+            $('.close').click(function () {
+                $('#exampleModal').modal('hide');
+            });
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        setTimeout(function () {
+            console.log("Removing new-record class");
+            $(".new-record").removeClass("new-record");
+        }, 3000);
+    });
 </script>

@@ -1,6 +1,7 @@
 ﻿using PartnerWeb.DataAccess;
 using PartnerWeb.Models;
 using PartnerWeb.Services;
+using System;
 using System.Web.Mvc;
 
 namespace PartnerWeb.Controllers
@@ -17,6 +18,8 @@ namespace PartnerWeb.Controllers
         // GET: Partner
         public ActionResult Index()
         {
+            ViewBag.NewRecordId = TempData["NewRecord"];
+
             return View(DapperORM.ReturnList<Partner>("AllPartners"));
         }
 
@@ -30,6 +33,8 @@ namespace PartnerWeb.Controllers
         public ActionResult Create(Partner partner)
         {
             _partnerService.CreatePartner(partner);
+            TempData["NewRecord"] = partner.ExternalCode;
+
             return RedirectToAction("Index");
         }
 
