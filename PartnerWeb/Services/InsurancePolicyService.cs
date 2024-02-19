@@ -18,7 +18,7 @@ namespace PartnerWeb.Services
         {
             if (!InsurancePolicy.IsValid(policy))
             {
-                throw new Exception("Error while inseting policy.");
+                throw new Exception("Error while inserting policy.");
             }
             else
             {

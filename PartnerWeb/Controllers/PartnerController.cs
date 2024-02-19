@@ -2,6 +2,7 @@
 using PartnerWeb.Models;
 using PartnerWeb.Services;
 using System;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace PartnerWeb.Controllers
@@ -26,6 +27,12 @@ namespace PartnerWeb.Controllers
         [HttpGet]
         public ActionResult Create()
         {
+            ViewBag.PartnerTypes = new SelectList(Enum.GetValues(typeof(Partner.PartnerType)).Cast<Partner.PartnerType>().Select(e => new SelectListItem
+            {
+                Value = ((int)e).ToString(),
+                Text = e.ToString()
+            }), "Value", "Text");
+
             return View();
         }
 
@@ -42,6 +49,12 @@ namespace PartnerWeb.Controllers
         public ActionResult Edit(int id)
         {
             var partner = _partnerService.GetPartnerById(id);
+            ViewBag.PartnerTypes = new SelectList(Enum.GetValues(typeof(Partner.PartnerType)).Cast<Partner.PartnerType>().Select(e => new SelectListItem
+            {
+                Value = ((int)e).ToString(),
+                Text = e.ToString()
+            }), "Value", "Text");
+
             return View(partner);
         }
 

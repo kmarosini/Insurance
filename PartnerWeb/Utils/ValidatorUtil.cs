@@ -42,6 +42,17 @@ namespace PartnerWeb.Utils
             return System.Text.RegularExpressions.Regex.IsMatch(partnerNumber, partnerNumberPattern);
         }
 
+        public static bool IsValidCroatianPINNumber(string croatianPIN)
+        {
+            if (string.IsNullOrEmpty(croatianPIN))
+            {
+                return false;
+            }
+
+            string partnerNumberPattern = @"^\d{11}$";
+            return System.Text.RegularExpressions.Regex.IsMatch(croatianPIN, partnerNumberPattern);
+        }
+
         public static bool IsValidPartnerType(int partnerTypeId)
         {
             int[] allowedIds = { 1, 2 };

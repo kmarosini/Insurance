@@ -24,6 +24,7 @@ namespace PartnerWeb.Models
         [Required(ErrorMessage = "* required")]
         [RegularExpression(@"^\d{20}$", ErrorMessage = "PartnerNumber must be a valid 20-digit number.")]
         public string PartnerNumber { get; set; }
+        [RegularExpression(@"^\d{11}$", ErrorMessage = "Croatian PIN must be a valid 11-digit number.")]
         public string CroatianPIN { get; set; }
         [Required(ErrorMessage = "* required")]
         public PartnerType PartnerTypeId { get; set; }
@@ -46,10 +47,11 @@ namespace PartnerWeb.Models
             bool isLastNameValid = ValidatorUtil.IsValidName(partner.LastName);
             bool isEmailValid = ValidatorUtil.IsValidEmail(partner.CreateByUser);
             bool isPartnerNumberValid = ValidatorUtil.IsValidPartnerNumber(partner.PartnerNumber);
-            bool isPartnerTypeValid = ValidatorUtil.IsValidPartnerType((int)partner.PartnerTypeId);
+            bool isPartnerTypeValid = Enum.IsDefined(typeof(Partner.PartnerType), partner.PartnerTypeId);
             bool isIsForeignValid = ValidatorUtil.IsValidIsForeign(partner.IsForeign);
             bool isExternalCodeValid = ValidatorUtil.IsValidExternalCode(partner.ExternalCode);
             bool isGenderValid = ValidatorUtil.IsValidGender(partner.Gender);
+            bool isCroatianPINValid = ValidatorUtil.IsValidCroatianPINNumber(partner.CroatianPIN);
 
             return isFirstNameValid &&
                    isLastNameValid &&
@@ -58,7 +60,8 @@ namespace PartnerWeb.Models
                    isPartnerTypeValid &&
                    isIsForeignValid &&
                    isExternalCodeValid &&
-                   isGenderValid;
+                   isGenderValid &&
+                   isCroatianPINValid;
         }
     }
 }

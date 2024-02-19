@@ -58,7 +58,7 @@ namespace PartnerWeb.Services
                 param.Add("@FirstName", partner.FirstName);
                 param.Add("@LastName", partner.LastName);
                 param.Add("@Address", partner.Address);
-                param.Add("@PartnerNumber", Convert.ToInt64(partner.PartnerNumber), System.Data.DbType.Int64);
+                param.Add("@PartnerNumber", Convert.ToDecimal(partner.PartnerNumber));
                 param.Add("@CroatianPIN", partner.CroatianPIN);
                 param.Add("@PartnerTypeId", partner.PartnerTypeId);
                 param.Add("@CreateByUser", partner.CreateByUser);

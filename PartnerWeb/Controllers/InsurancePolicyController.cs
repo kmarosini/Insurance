@@ -1,5 +1,6 @@
 ﻿using PartnerWeb.Models;
 using PartnerWeb.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -21,6 +22,7 @@ namespace PartnerWeb.Controllers
             IEnumerable<Partner> partners = _insurancePolicyService.GetAllPartners();
             List<SelectListItem> partnerItems = partners.Select(p => new SelectListItem { Value = p.Id.ToString(), Text = $"{p.FirstName} {p.LastName}" }).ToList();
             ViewBag.Partners = partnerItems;
+   
             return View();
         }
 
