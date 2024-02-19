@@ -1,22 +1,25 @@
-﻿using Dapper;
-using PartnerWeb.DataAccess;
-using PartnerWeb.Models;
-using System;
+﻿using PartnerWeb.Models;
+using PartnerWeb.Services;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace PartnerWeb.Controllers
 {
     public class InsurancePolicyController : Controller
     {
+        private readonly IInsurancePolicyService _insurancePolicyService;
+
+        public InsurancePolicyController(IInsurancePolicyService insurancePolicyService)
+        {
+            _insurancePolicyService = insurancePolicyService;
+        }
         // GET: InsurancePolicy
         [HttpGet]
         public ActionResult Create()
         {
-            IEnumerable<Partner> enumerable = DapperORM.ReturnList<Partner>("AllPartners");
-            List<SelectListItem> partnerItems = enumerable.Select(p => new SelectListItem { Value = p.Id.ToString(), Text = $"{p.FirstName} {p.LastName}" }).ToList();
+            IEnumerable<Partner> partners = _insurancePolicyService.GetAllPartners();
+            List<SelectListItem> partnerItems = partners.Select(p => new SelectListItem { Value = p.Id.ToString(), Text = $"{p.FirstName} {p.LastName}" }).ToList();
             ViewBag.Partners = partnerItems;
             return View();
         }
@@ -24,11 +27,7 @@ namespace PartnerWeb.Controllers
         [HttpPost]
         public ActionResult Create(InsurancePolicy policy)
         {
-            DynamicParameters param = new DynamicParameters();
-            param.Add("@PolicyNumber", policy.PolicyNumber);
-            param.Add("@PolicyPrice", policy.PolicyPrice);
-            param.Add("@partnerId", policy.PartnerId);
-            DapperORM.ExecuteWithoutReturn("PolicyAdd", param);
+            _insurancePolicyService.CreateInsurancePolicy(policy);
             return RedirectToAction("Index", "Partner");
         }
     }

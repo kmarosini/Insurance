@@ -1,17 +1,19 @@
-﻿using Dapper;
-using PartnerWeb.DataAccess;
+﻿using PartnerWeb.DataAccess;
 using PartnerWeb.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Web;
+using PartnerWeb.Services;
 using System.Web.Mvc;
 
 namespace PartnerWeb.Controllers
 {
     public class PartnerController : Controller
     {
+        private readonly IPartnerService _partnerService;
+
+        public PartnerController(IPartnerService partnerService)
+        {
+            _partnerService = partnerService;
+        }
+
         // GET: Partner
         public ActionResult Index()
         {
@@ -27,54 +29,28 @@ namespace PartnerWeb.Controllers
         [HttpPost]
         public ActionResult Create(Partner partner)
         {
-            DynamicParameters param = new DynamicParameters();
-            param.Add("@FirstName", partner.FirstName);
-            param.Add("@LastName", partner.LastName);
-            param.Add("@Address", partner.Address);
-            param.Add("@PartnerNumber", partner.PartnerNumber);
-            param.Add("@CroatianPIN", partner.CroatianPIN);
-            param.Add("@PartnerTypeId", partner.PartnerTypeId);
-            param.Add("@CreateByUser", partner.CreateByUser);
-            param.Add("@IsForegin", partner.IsForeign.HasValue ? partner.IsForeign : false);
-            param.Add("@ExternalCode", partner.ExternalCode);
-            param.Add("@Gender", partner.Gender);
-            DapperORM.ExecuteWithoutReturn("PartnerAdd", param);
+            _partnerService.CreatePartner(partner);
             return RedirectToAction("Index");
         }
 
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            DynamicParameters param = new DynamicParameters();
-            param.Add("@Id", id);
-            return View(DapperORM.ReturnList<Partner>("GetPartnerById", param).FirstOrDefault<Partner>());
+            var partner = _partnerService.GetPartnerById(id);
+            return View(partner);
         }
 
         [HttpPost]
         public ActionResult Edit(Partner partner)
         {
-            DynamicParameters param = new DynamicParameters();
-            param.Add("@Id", partner.Id);
-            param.Add("@FirstName", partner.FirstName);
-            param.Add("@LastName", partner.LastName);
-            param.Add("@Address", partner.Address);
-            param.Add("@PartnerNumber", partner.PartnerNumber);
-            param.Add("@CroatianPIN", partner.CroatianPIN);
-            param.Add("@PartnerTypeId", partner.PartnerTypeId);
-            param.Add("@CreateByUser", partner.CreateByUser);
-            param.Add("@IsForegin", partner.IsForeign.HasValue ? partner.IsForeign : false);
-            param.Add("@ExternalCode", partner.ExternalCode);
-            param.Add("@Gender", partner.Gender);
-            DapperORM.ExecuteWithoutReturn("PartnerUpdate", param);
+            _partnerService.UpdatePartner(partner);
             return RedirectToAction("Index");
         }
 
 
         public ActionResult Delete(int id)
         {
-            DynamicParameters param = new DynamicParameters();
-            param.Add("@Id", id);
-            DapperORM.ExecuteWithoutReturn("DeletePartnerById", param);
+            _partnerService.DeletePartner(id);
             return RedirectToAction("Index");
         }
     }
