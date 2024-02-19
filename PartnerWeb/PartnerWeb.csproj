@@ -261,6 +261,7 @@
     <Compile Include="Services\InsurancePolicyService.cs" />
     <Compile Include="Services\IPartnerService.cs" />
     <Compile Include="Services\PartnerService.cs" />
+    <Compile Include="Utils\ValidatorUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-grid.css" />

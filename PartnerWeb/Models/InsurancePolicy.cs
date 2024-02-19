@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using PartnerWeb.Utils;
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace PartnerWeb.Models
 {
@@ -18,6 +20,17 @@ namespace PartnerWeb.Models
         public int PartnerId { get; set; }
         public Partner Partner { get; set; }
 
+        public static bool IsValid(InsurancePolicy policy)
+        {
+            bool isPolicyNumberValid = !string.IsNullOrEmpty(policy.PolicyNumber) &&
+                               policy.PolicyNumber.Length >= 10 &&
+                               policy.PolicyNumber.Length <= 15;
+
+            bool isPartnerIdValid = policy.PartnerId > 0;
+
+            return isPolicyNumberValid &&
+                   isPartnerIdValid;
+        }
 
     }
 }

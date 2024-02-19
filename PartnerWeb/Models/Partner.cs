@@ -1,5 +1,7 @@
-﻿using System;
+﻿using PartnerWeb.Utils;
+using System;
 using System.ComponentModel.DataAnnotations;
+using System.Configuration;
 
 namespace PartnerWeb.Models
 {
@@ -20,7 +22,8 @@ namespace PartnerWeb.Models
         public string LastName { get; set; }
         public string Address { get; set; }
         [Required(ErrorMessage = "* required")]
-        public int PartnerNumber { get; set; }
+        [RegularExpression(@"^\d{20}$", ErrorMessage = "PartnerNumber must be a valid 20-digit number.")]
+        public string PartnerNumber { get; set; }
         public string CroatianPIN { get; set; }
         [Required(ErrorMessage = "* required")]
         public PartnerType PartnerTypeId { get; set; }
@@ -36,5 +39,26 @@ namespace PartnerWeb.Models
         public char Gender { get; set; }
         public int PolicyCount { get; set; }
         public decimal TotalPolicyAmount { get; set; }
+
+        public static bool IsValid(Partner partner)
+        {
+            bool isFirstNameValid = ValidatorUtil.IsValidName(partner.FirstName);
+            bool isLastNameValid = ValidatorUtil.IsValidName(partner.LastName);
+            bool isEmailValid = ValidatorUtil.IsValidEmail(partner.CreateByUser);
+            bool isPartnerNumberValid = ValidatorUtil.IsValidPartnerNumber(partner.PartnerNumber);
+            bool isPartnerTypeValid = ValidatorUtil.IsValidPartnerType((int)partner.PartnerTypeId);
+            bool isIsForeignValid = ValidatorUtil.IsValidIsForeign(partner.IsForeign);
+            bool isExternalCodeValid = ValidatorUtil.IsValidExternalCode(partner.ExternalCode);
+            bool isGenderValid = ValidatorUtil.IsValidGender(partner.Gender);
+
+            return isFirstNameValid &&
+                   isLastNameValid &&
+                   isEmailValid &&
+                   isPartnerNumberValid &&
+                   isPartnerTypeValid &&
+                   isIsForeignValid &&
+                   isExternalCodeValid &&
+                   isGenderValid;
+        }
     }
 }

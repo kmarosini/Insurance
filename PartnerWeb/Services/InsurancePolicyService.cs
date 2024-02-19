@@ -1,10 +1,9 @@
-﻿using Dapper;
+﻿using Antlr.Runtime;
+using Dapper;
 using PartnerWeb.DataAccess;
 using PartnerWeb.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace PartnerWeb.Services
 {
@@ -17,11 +16,18 @@ namespace PartnerWeb.Services
 
         public void CreateInsurancePolicy(InsurancePolicy policy)
         {
-            DynamicParameters param = new DynamicParameters();
-            param.Add("@PolicyNumber", policy.PolicyNumber);
-            param.Add("@PolicyPrice", policy.PolicyPrice);
-            param.Add("@partnerId", policy.PartnerId);
-            DapperORM.ExecuteWithoutReturn("PolicyAdd", param);
+            if (!InsurancePolicy.IsValid(policy))
+            {
+                throw new Exception("Error while inseting policy.");
+            }
+            else
+            {
+                DynamicParameters param = new DynamicParameters();
+                param.Add("@PolicyNumber", policy.PolicyNumber);
+                param.Add("@PolicyPrice", policy.PolicyPrice);
+                param.Add("@partnerId", policy.PartnerId);
+                DapperORM.ExecuteWithoutReturn("PolicyAdd", param);
+            } 
         }
     }
 }
